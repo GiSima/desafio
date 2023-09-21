@@ -5,12 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 public record UserRegisterDTO(
-        @NotBlank
+        @NotBlank(message = "Name is mandatory")
         String name,
-        @NotBlank
-        @Pattern(regexp = "\\d{11}")
+        @NotBlank(message = "CPF is mandatory")
+        @Pattern(regexp = "\\d{11}", message = "CPF must be eleven digits long")
         String cpf,
-        @NotBlank
-        @Email
+        @NotBlank(message = "Email is mandatory")
+        @Email(message = "Email must follow pattern: name@domain.com")
         String email) {
 }

@@ -3,7 +3,7 @@ package buy.desafio.api.dto;
 import jakarta.validation.constraints.NotNull;
 
 public record UserUpdateBalanceDTO(
-        @NotNull
+        @NotNull(message = "User Id necessary for deposit")
         Long id,
         double deposit){
 

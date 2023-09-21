@@ -38,7 +38,7 @@ public class User {
 
     }
 
-    public void decreaseBalance(double amount) {
+    public void purchase(double amount) {
         if(amount <= this.balance) {
             this.balance -= amount;
         } else throw new RuntimeException("Not enough money deposited.");
