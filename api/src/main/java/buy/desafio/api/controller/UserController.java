@@ -3,7 +3,7 @@ package buy.desafio.api.controller;
 import buy.desafio.api.domain.User;
 import buy.desafio.api.dto.UserListDataDTO;
 import buy.desafio.api.dto.UserRegisterDTO;
-import buy.desafio.api.dto.UserUpdateBalance;
+import buy.desafio.api.dto.UserUpdateBalanceDTO;
 import buy.desafio.api.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -33,8 +33,14 @@ public class UserController {
 
     @PutMapping
     @Transactional
-    public void update(@RequestBody @Valid UserUpdateBalance data){
+    public void update(@RequestBody @Valid UserUpdateBalanceDTO data){
         var user = repository.getReferenceById(data.id());
-        user.increaseBalance(data);
+        user.deposit(data);
+    }
+
+    @Transactional
+    public void purchase(Long id, double amount){
+        var user = repository.getReferenceById(id);
+        user.decreaseBalance(amount);
     }
 }
