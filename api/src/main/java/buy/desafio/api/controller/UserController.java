@@ -1,58 +1,70 @@
 package buy.desafio.api.controller;
 
-import buy.desafio.api.domain.User;
-import buy.desafio.api.dto.BuyProductDTO;
-import buy.desafio.api.dto.UserListDataDTO;
-import buy.desafio.api.dto.UserRegisterDTO;
-import buy.desafio.api.dto.UserUpdateBalanceDTO;
-import buy.desafio.api.repository.UserRepository;
+import buy.desafio.api.dto.*;
 import buy.desafio.api.service.ShopService;
+import buy.desafio.api.service.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     @Autowired
-    private ShopService service;
+    private ShopService shopService;
 
     @Autowired
-    private UserRepository repository;
+    private UserService userService;
+
+//    @Autowired
+//    private UserRepository repository;
 
     @PostMapping
     @Transactional
-    public void register(@RequestBody @Valid UserRegisterDTO data){
-        repository.save(new User(data));
+    public ResponseEntity register(@RequestBody @Valid UserRegisterDTO data, UriComponentsBuilder uriBuilder){
+        var user = userService.create(data);
+
+        var uri = uriBuilder.path("users/{id}").buildAndExpand(user.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new UserRegisterDetailsDTO(user));
     }
 
     @PostMapping("/buy")
     @Transactional
-    public void purchase(@RequestBody @Valid BuyProductDTO data){
-        service.buyProduct(data);
+    public ResponseEntity purchase(@RequestBody @Valid BuyProductDTO data){
+        PurchaseProductDTO detail = shopService.buyProduct(data);
+
+        return ResponseEntity.ok(detail);
     }
 
 
     @GetMapping
-    public Page<UserListDataDTO> list(@PageableDefault(size = 10, sort = {"name", "cpf"}) Pageable pageable){
-        return repository.findAll(pageable).map(UserListDataDTO::new);
+    public ResponseEntity<Page<UserListDataDTO>> list(@PageableDefault(size = 10, sort = {"name", "cpf"}) Pageable pageable){
+        var page = userService.list(pageable);
+
+        return ResponseEntity.ok(page);
     }
 
     @PutMapping
     @Transactional
-    public void update(@RequestBody @Valid UserUpdateBalanceDTO data){
-        var user = repository.getReferenceById(data.id());
-        user.deposit(data);
+    public ResponseEntity update(@RequestBody @Valid UserUpdateBalanceDTO data){
+        var user = userService.deposit(data);
+
+        return ResponseEntity.ok(new UserRegisterDetailsDTO(user));
     }
 
-    @Transactional
-    public void purchase(Long id, double amount){
-        var user = repository.getReferenceById(id);
-        user.purchase(amount);
+    @GetMapping("/{id}")
+    public ResponseEntity detail(@PathVariable Long id){
+        var user = userService.getReferenceById(id);
+
+        return ResponseEntity.ok(new UserRegisterDetailsDTO(user));
     }
+
 }

@@ -1,4 +1,4 @@
-package buy.desafio.api.domain;
+package buy.desafio.api.domain.product;
 
 import buy.desafio.api.dto.ProductRegisterDTO;
 import jakarta.persistence.*;

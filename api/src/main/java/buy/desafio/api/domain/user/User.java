@@ -1,4 +1,4 @@
-package buy.desafio.api.domain;
+package buy.desafio.api.domain.user;
 
 import buy.desafio.api.dto.UserRegisterDTO;
 import buy.desafio.api.dto.UserUpdateBalanceDTO;
@@ -31,6 +31,10 @@ public class User {
         this.balance = 0;
     }
 
+    public boolean checkBalance(double price){
+        return this.getBalance() >= price;
+    }
+
     public void deposit(UserUpdateBalanceDTO data) {
         if(data.deposit() >= 0) {
             this.balance += data.deposit();
@@ -39,7 +43,7 @@ public class User {
     }
 
     public void purchase(double amount) {
-        if(amount <= this.balance) {
+        if(this.checkBalance(amount)) {
             this.balance -= amount;
         } else throw new RuntimeException("Not enough money deposited.");
     }

@@ -1,5 +1,6 @@
 package buy.desafio.api.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -8,6 +9,7 @@ public record BuyProductDTO(
         Long userId,
         @NotNull(message = "Product Id is mandatory")
         Long productId,
+        @NotNull(message = "Amount is mandatory")
         @Positive(message = "Amount must not be negative")
-        double amount) {
+        Integer amount) {
 }
