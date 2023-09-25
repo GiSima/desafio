@@ -2,7 +2,6 @@ package buy.desafio.api.controller;
 
 import buy.desafio.api.dto.ProductListDataDTO;
 import buy.desafio.api.dto.ProductRegisterDTO;
-import buy.desafio.api.dto.ProductRegisterDetailsDTO;
 import buy.desafio.api.service.ProductService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -31,7 +30,7 @@ public class ProductController {
 
         var uri = uriBuilder.path("products/{id}").buildAndExpand(product.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new ProductRegisterDetailsDTO(product));
+        return ResponseEntity.created(uri).body(new ProductListDataDTO(product));
     }
 
     @GetMapping
@@ -53,6 +52,6 @@ public class ProductController {
     public ResponseEntity detail(@PathVariable Long id){
         var product = service.getReferenceById(id);
 
-        return ResponseEntity.ok(new ProductRegisterDetailsDTO(product));
+        return ResponseEntity.ok(new ProductListDataDTO(product));
     }
 }

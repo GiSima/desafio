@@ -11,18 +11,22 @@ import org.springframework.stereotype.Service;
 public class ShopService {
 
     @Autowired
-    private UserRepository userRepository;
+    private ProductService productService;
 
     @Autowired
-    private ProductRepository productRepository;
+    private UserService userService;
 
     public PurchaseProductDTO buyProduct(BuyProductDTO data){
-        var user = userRepository.getReferenceById(data.userId());
-        var prod = productRepository.getReferenceById(data.productId());
+        var user = userService.getReferenceById(data.userId());
+        var prod = productService.getReferenceById(data.productId());
 
         double price = data.amount() * prod.getPrice();
 
-        user.purchase(price);
+        userService.purchase(data.userId(), price, prod);
+        productService.UserMadePurchase(data.productId(), user);
+
+        userService.update(data.userId());
+        productService.update(data.productId());
 
         return new PurchaseProductDTO(user.getName(), prod.getName(), prod.getPrice(), data.amount(), price);
     }

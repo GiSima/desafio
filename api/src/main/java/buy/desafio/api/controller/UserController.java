@@ -33,7 +33,7 @@ public class UserController {
 
         var uri = uriBuilder.path("users/{id}").buildAndExpand(user.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new UserRegisterDetailsDTO(user));
+        return ResponseEntity.created(uri).body(new UserListDataDTO(user));
     }
 
     @PostMapping("/buy")
@@ -57,14 +57,14 @@ public class UserController {
     public ResponseEntity update(@RequestBody @Valid UserUpdateBalanceDTO data){
         var user = userService.deposit(data);
 
-        return ResponseEntity.ok(new UserRegisterDetailsDTO(user));
+        return ResponseEntity.ok(new UserListDataDTO(user));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity detail(@PathVariable Long id){
         var user = userService.getReferenceById(id);
 
-        return ResponseEntity.ok(new UserRegisterDetailsDTO(user));
+        return ResponseEntity.ok(new UserListDataDTO(user));
     }
 
 }

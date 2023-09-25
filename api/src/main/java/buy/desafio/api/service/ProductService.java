@@ -1,6 +1,7 @@
 package buy.desafio.api.service;
 
 import buy.desafio.api.domain.product.Product;
+import buy.desafio.api.domain.user.User;
 import buy.desafio.api.dto.ProductListDataDTO;
 import buy.desafio.api.dto.ProductRegisterDTO;
 import buy.desafio.api.repository.ProductRepository;
@@ -35,5 +36,12 @@ public class ProductService {
         return repository.getReferenceById(id);
     }
 
+    public void UserMadePurchase(Long id, User user){
+        repository.getReferenceById(id).addUser(user);
+    }
+
+    public void update(Long id){
+        repository.save(getReferenceById(id));
+    }
 
 }
