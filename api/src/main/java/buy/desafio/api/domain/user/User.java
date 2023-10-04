@@ -4,15 +4,18 @@ import buy.desafio.api.domain.product.Product;
 import buy.desafio.api.dto.UserRegisterDTO;
 import buy.desafio.api.dto.UserUpdateBalanceDTO;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.Pair;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.util.Set;
 
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = {"cpf", "email"}))
 @Entity(name = "User")
 @Getter
 @NoArgsConstructor
@@ -22,9 +25,19 @@ public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Name is mandatory")
+    @Size(max=100, message = "Size limit of 100 characters")
     private String name;
+    @NotBlank(message = "CPF is mandatory")
+    @CPF(message = "CPF must be a valid one")
+//    @Column(unique = true)
     private String cpf;
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email must follow pattern: name@domain.com")
+    @Size(max=100, message = "Size limit of 100 characters")
+//    @Column(unique = true)
     private String email;
+    @Min(value = 0, message = "Value can't be lower than 0")
     private double balance;
 
     @ManyToMany

@@ -45,7 +45,7 @@ public class ProductController {
     public ResponseEntity remove(@PathVariable Long id){
         service.remove(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
