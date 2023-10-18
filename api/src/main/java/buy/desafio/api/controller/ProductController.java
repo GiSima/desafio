@@ -54,4 +54,9 @@ public class ProductController {
 
         return ResponseEntity.ok(new ProductListDataDTO(product));
     }
+
+    @DeleteMapping("/cleanCache")
+    public void cleanCache() {
+        service.cleanCache();
+    }
 }

@@ -2,6 +2,7 @@ package buy.desafio.api.service;
 
 import buy.desafio.api.dto.BuyProductDTO;
 import buy.desafio.api.dto.PurchaseProductDTO;
+import buy.desafio.api.dto.UserPurchaseProductDTO;
 import buy.desafio.api.repository.ProductRepository;
 import buy.desafio.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class ShopService {
 
         double price = data.amount() * prod.getPrice();
 
-        userService.purchase(data.userId(), price, prod);
+        userService.purchase(new UserPurchaseProductDTO(data.userId(), price, prod));
         productService.UserMadePurchase(data.productId(), user);
 
         userService.update(data.userId());

@@ -16,15 +16,15 @@ import org.springframework.web.client.HttpClientErrorException;
 @RestControllerAdvice
 public class ErrorTreatment {
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ExceptionDTO> treatError404() {
-        return ResponseEntity.notFound().build();
-    }
-
-    @ExceptionHandler(ValidationException.class)
+    @ExceptionHandler(value = {ValidationException.class})
     public ResponseEntity<ExceptionDTO> treatErrorValidation(ValidationException exception){
         ExceptionDTO exceptionDTO = new ExceptionDTO(exception.getMessage(), "422");
         return ResponseEntity.status(422).body(exceptionDTO);
+    }
+
+    @ExceptionHandler(value = {NoSuchElementException.class, EntityNotFoundException.class})
+    public ResponseEntity<ExceptionDTO> treatError404() {
+        return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

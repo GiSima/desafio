@@ -6,6 +6,9 @@ import buy.desafio.api.dto.ProductListDataDTO;
 import buy.desafio.api.dto.ProductRegisterDTO;
 import buy.desafio.api.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,20 +31,36 @@ public class ProductService {
         return repository.findAll(pageable).map(ProductListDataDTO::new);
     }
 
+    @Cacheable(value = "product", key = "#id")
+    public Product getReferenceById(Long id){
+        System.out.println("Got Product. Should be cached");
+
+        return repository.findById(id).get();
+    }
+
+    @CacheEvict(value = "product", key = "#id")
     public void remove(Long id){
         repository.deleteById(id);
     }
 
-    public Product getReferenceById(Long id){
-        return repository.getReferenceById(id);
+    public Product UserMadePurchase(Long id, User user){
+        var prod = repository.getReferenceById(id);
+
+        prod.addUser(user);
+
+        return prod;
     }
 
-    public void UserMadePurchase(Long id, User user){
-        repository.getReferenceById(id).addUser(user);
+    @CachePut(value = "product", key = "#id")
+    public Product update(Long id){
+        var prod = repository.getReferenceById(id);
+
+        repository.save(prod);
+
+        return prod;
     }
 
-    public void update(Long id){
-        repository.save(getReferenceById(id));
-    }
+    @CacheEvict(value = {"product", "user"}, allEntries = true)
+    public void cleanCache(){}
 
 }
