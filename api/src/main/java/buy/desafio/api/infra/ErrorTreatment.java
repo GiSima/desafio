@@ -1,17 +1,15 @@
 package buy.desafio.api.infra;
 
-import java.util.*;
 import buy.desafio.api.dto.ExceptionDTO;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.UnexpectedTypeException;
 import jakarta.validation.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class ErrorTreatment {
@@ -20,6 +18,24 @@ public class ErrorTreatment {
     public ResponseEntity<ExceptionDTO> treatErrorValidation(ValidationException exception){
         ExceptionDTO exceptionDTO = new ExceptionDTO(exception.getMessage(), "422");
         return ResponseEntity.status(422).body(exceptionDTO);
+    }
+
+    @ExceptionHandler(value = {PurchaseNotAllowedException.class})
+    public ResponseEntity<ExceptionDTO> treatPurchaseNotAllowed(PurchaseNotAllowedException exception){
+        ExceptionDTO exceptionDTO = new ExceptionDTO(exception.getMessage(), "403");
+        return ResponseEntity.status(403).body(exceptionDTO);
+    }
+
+    @ExceptionHandler(value = {PurchaseException.class})
+    public ResponseEntity<ExceptionDTO> treatPurchaseError(PurchaseException exception){
+        ExceptionDTO exceptionDTO = new ExceptionDTO(exception.getMessage(), "400");
+        return ResponseEntity.status(400).body(exceptionDTO);
+    }
+
+    @ExceptionHandler(value = {PreconditionFailedException.class})
+    public ResponseEntity<ExceptionDTO> treatPreconditionFailedError(PreconditionFailedException exception){
+        ExceptionDTO exceptionDTO = new ExceptionDTO(exception.getMessage(), "412");
+        return ResponseEntity.status(412).body(exceptionDTO);
     }
 
     @ExceptionHandler(value = {NoSuchElementException.class, EntityNotFoundException.class})

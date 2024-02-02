@@ -1,8 +1,8 @@
 package buy.desafio.api.controller;
 
 import buy.desafio.api.dto.ProductListDataDTO;
-import buy.desafio.api.dto.ProductRegisterDTO;
 import buy.desafio.api.service.ProductService;
+import com.dto.ProductRegisterDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

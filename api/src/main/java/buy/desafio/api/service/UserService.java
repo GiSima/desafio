@@ -1,21 +1,17 @@
 package buy.desafio.api.service;
 
-import buy.desafio.api.domain.product.Product;
-import buy.desafio.api.domain.user.User;
 import buy.desafio.api.dto.UserListDataDTO;
 import buy.desafio.api.dto.UserPurchaseProductDTO;
-import buy.desafio.api.dto.UserRegisterDTO;
-import buy.desafio.api.dto.UserUpdateBalanceDTO;
-import buy.desafio.api.repository.UserRepository;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.dto.UserRegisterDTO;
+import com.dto.UserUpdateBalanceDTO;
+import com.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import com.repository.UserRepository;
 
 @Service
 public class UserService {

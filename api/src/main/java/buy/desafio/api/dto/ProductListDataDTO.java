@@ -1,6 +1,6 @@
 package buy.desafio.api.dto;
 
-import buy.desafio.api.domain.product.Product;
+import com.domain.product.Product;
 
 public record ProductListDataDTO(Long id, String name, String description, Double price) {
 

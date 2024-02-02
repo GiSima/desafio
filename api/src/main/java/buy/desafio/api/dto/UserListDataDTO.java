@@ -1,7 +1,7 @@
 package buy.desafio.api.dto;
 
-import buy.desafio.api.domain.product.Product;
-import buy.desafio.api.domain.user.User;
+import com.domain.product.Product;
+import com.domain.user.User;
 
 import java.util.Set;
 

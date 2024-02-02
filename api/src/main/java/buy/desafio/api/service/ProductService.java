@@ -1,10 +1,9 @@
 package buy.desafio.api.service;
 
-import buy.desafio.api.domain.product.Product;
-import buy.desafio.api.domain.user.User;
 import buy.desafio.api.dto.ProductListDataDTO;
-import buy.desafio.api.dto.ProductRegisterDTO;
-import buy.desafio.api.repository.ProductRepository;
+import com.dto.ProductRegisterDTO;
+import com.domain.product.Product;
+import com.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -12,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import com.repository.ProductRepository;
 
 @Service
 public class ProductService {

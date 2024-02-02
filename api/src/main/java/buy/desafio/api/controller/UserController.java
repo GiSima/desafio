@@ -1,16 +1,15 @@
 package buy.desafio.api.controller;
 
-import buy.desafio.api.domain.user.User;
-import buy.desafio.api.dto.*;
+import buy.desafio.api.dto.BuyProductDTO;
+import buy.desafio.api.dto.PurchaseProductDTO;
+import buy.desafio.api.dto.UserListDataDTO;
 import buy.desafio.api.service.ShopService;
 import buy.desafio.api.service.UserService;
+import com.dto.UserRegisterDTO;
+import com.dto.UserUpdateBalanceDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

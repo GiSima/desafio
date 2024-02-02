@@ -1,6 +1,5 @@
 package buy.desafio.api.dto;
 
-import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
